@@ -4,10 +4,13 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Tierhalter (Pet Owner).
- * Ein Tierhalter hat ein Profil mit Name, E-Mail und einer Beschreibung.
- * Die Beziehung zu Haustieren wird in einer spaeteren Iteration ergaenzt.
+ * Ein Tierhalter hat ein Profil, kann Haustiere registrieren und
+ * Betreuungsanfragen erstellen.
  */
 @Entity
 @Table(name = "pet_owners")
@@ -28,6 +31,10 @@ public class PetOwner {
 
     @Column(length = 1000)
     private String description;
+
+    // Ein Tierhalter kann mehrere Haustiere besitzen
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Pet> pets = new ArrayList<>();
 
     public PetOwner() {}
 
@@ -50,4 +57,7 @@ public class PetOwner {
 
     public String getDescription() { return description; }
     public void setDescription(String description) { this.description = description; }
+
+    public List<Pet> getPets() { return pets; }
+    public void setPets(List<Pet> pets) { this.pets = pets; }
 }
