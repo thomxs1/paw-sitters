@@ -1,0 +1,38 @@
+# CI-Pipeline fuer das Pawsitters-Projekt (GitLab CI/CD).
+# Wird bei jedem Push und Merge Request automatisch ausgefuehrt und
+# fuehrt alle Unit- und Integrationstests aus.
+
+# Docker-Image mit Maven 3.9 und Java 17 (Temurin)
+image: maven:3.9-eclipse-temurin-17
+
+stages:
+  - build
+  - test
+
+variables:
+  # Lokales Maven-Repository ins Projektverzeichnis, damit GitLab es cachen kann
+  MAVEN_OPTS: "-Dmaven.repo.local=$CI_PROJECT_DIR/.m2/repository"
+  MAVEN_CLI_OPTS: "-B -ntp --fail-at-end"
+
+cache:
+  key: "$CI_COMMIT_REF_SLUG"
+  paths:
+    - .m2/repository/
+
+build:
+  stage: build
+  script:
+    - mvn $MAVEN_CLI_OPTS compile
+
+test:
+  stage: test
+  script:
+    - mvn $MAVEN_CLI_OPTS verify
+  artifacts:
+    when: always
+    paths:
+      - target/surefire-reports/
+    reports:
+      junit:
+        - target/surefire-reports/TEST-*.xml
+    expire_in: 1 week
