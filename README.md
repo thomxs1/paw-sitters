@@ -1,18 +1,16 @@
 # 🐾 Pawsitters - Pet Holiday Platform
 
-DHBW Projektarbeit. Plattform, die Tierhalter mit Gastgebern verbindet, die
-deren Haustiere während eines Urlaubs gegen Bezahlung betreuen.
+DHBW Projektarbeit. Plattform, die Tierhalter mit Gastgebern verbindet.
 
-## Aktueller Stand: Projekt-Setup
+## Aktueller Stand: Tierhalter-Verwaltung
 
-Initiales Projekt-Setup mit Spring Boot und Maven. Die Anwendung startet,
-zeigt eine Willkommensseite und die CI-Pipeline ist eingerichtet.
+Erste fachliche Iteration: Verwaltung von Tierhaltern komplett umgesetzt
+inklusive Schichtenarchitektur (Controller → Service → Repository → Entity)
+und Unit-Tests.
 
-## Geplante Funktionalitäten
+## Fortschritt der Funktionalitäten
 
-Laut Aufgabenstellung sollen folgende Features umgesetzt werden:
-
-- [ ] Profile für Tierhalter
+- [x] Profile für Tierhalter
 - [ ] Profile für Gastgeber
 - [ ] Registrierung von Haustieren
 - [ ] Erstellung einer Betreuungsanfrage (Zeitraum)
@@ -29,12 +27,7 @@ Laut Aufgabenstellung sollen folgende Features umgesetzt werden:
 - Maven
 - H2 In-Memory Datenbank
 - Thymeleaf
-- JUnit 5
-
-## Voraussetzungen
-
-- JDK 17+
-- Maven 3.6+
+- JUnit 5 + Mockito
 
 ## Setup & Start
 
@@ -49,3 +42,5 @@ Anschließend Browser öffnen: <http://localhost:8080>
 ```bash
 mvn test
 ```
+
+Aktuell: **4 Tests** (1 Smoke-Test + 3 Unit-Tests für `PetOwnerService`).
