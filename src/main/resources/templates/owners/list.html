@@ -11,6 +11,8 @@
     <nav>
         <a th:href="@{/}">Start</a>
         <a th:href="@{/owners}">Tierhalter</a>
+        <a th:href="@{/hosts}">Gastgeber</a>
+        <a th:href="@{/pets}">Haustiere</a>
     </nav>
 </header>
 
@@ -20,13 +22,14 @@
 
     <table>
         <thead>
-        <tr><th>ID</th><th>Name</th><th>E-Mail</th><th>Aktionen</th></tr>
+        <tr><th>ID</th><th>Name</th><th>E-Mail</th><th>Anzahl Haustiere</th><th>Aktionen</th></tr>
         </thead>
         <tbody>
         <tr th:each="o : ${owners}">
             <td th:text="${o.id}"></td>
             <td><a th:href="@{'/owners/' + ${o.id}}" th:text="${o.name}"></a></td>
             <td th:text="${o.email}"></td>
+            <td th:text="${#lists.size(o.pets)}"></td>
             <td>
                 <form class="inline-form" th:action="@{'/owners/' + ${o.id} + '/delete'}" method="post">
                     <button class="btn btn-danger" type="submit">Loeschen</button>
@@ -34,7 +37,7 @@
             </td>
         </tr>
         <tr th:if="${#lists.isEmpty(owners)}">
-            <td colspan="4">Noch keine Tierhalter vorhanden.</td>
+            <td colspan="5">Noch keine Tierhalter vorhanden.</td>
         </tr>
         </tbody>
     </table>

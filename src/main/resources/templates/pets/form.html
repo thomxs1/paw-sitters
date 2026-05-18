@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="de" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Haustier registrieren</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+</head>
+<body>
+<header>
+    <h1>🐾 Pawsitters</h1>
+    <nav><a th:href="@{/pets}">Zur Liste</a></nav>
+</header>
+
+<main>
+    <h2>Neues Haustier registrieren</h2>
+    <div class="error" th:if="${error}" th:text="${error}"></div>
+
+    <form th:action="@{/pets}" th:object="${pet}" method="post">
+        <label>Besitzer
+            <select name="ownerId" required>
+                <option value="" disabled selected>Bitte waehlen</option>
+                <option th:each="o : ${owners}" th:value="${o.id}" th:text="${o.name + ' (' + o.email + ')'}"></option>
+            </select>
+        </label>
+        <label>Name
+            <input type="text" th:field="*{name}" required/>
+        </label>
+        <label>Tierart
+            <select th:field="*{animalType}" required>
+                <option value="" disabled selected>Bitte waehlen</option>
+                <option th:each="t : ${animalTypes}" th:value="${t}" th:text="${t}"></option>
+            </select>
+        </label>
+        <label>Alter (Jahre)
+            <input type="number" min="0" th:field="*{age}"/>
+        </label>
+        <label>Notizen
+            <textarea th:field="*{notes}"></textarea>
+        </label>
+        <button type="submit">Registrieren</button>
+        <a class="btn btn-secondary" th:href="@{/pets}">Abbrechen</a>
+    </form>
+</main>
+</body>
+</html>

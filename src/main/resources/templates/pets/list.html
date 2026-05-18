@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="de" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Haustiere</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+</head>
+<body>
+<header>
+    <h1>🐾 Pawsitters</h1>
+    <nav>
+        <a th:href="@{/}">Start</a>
+        <a th:href="@{/owners}">Tierhalter</a>
+        <a th:href="@{/pets}">Haustiere</a>
+    </nav>
+</header>
+
+<main>
+    <h2>Registrierte Haustiere</h2>
+    <a class="btn" th:href="@{/pets/new}">+ Haustier registrieren</a>
+
+    <table>
+        <thead>
+        <tr><th>ID</th><th>Name</th><th>Tierart</th><th>Alter</th><th>Besitzer</th><th>Aktionen</th></tr>
+        </thead>
+        <tbody>
+        <tr th:each="p : ${pets}">
+            <td th:text="${p.id}"></td>
+            <td th:text="${p.name}"></td>
+            <td th:text="${p.animalType}"></td>
+            <td th:text="${p.age}"></td>
+            <td th:text="${p.owner.name}"></td>
+            <td>
+                <form class="inline-form" th:action="@{'/pets/' + ${p.id} + '/delete'}" method="post">
+                    <button class="btn btn-danger" type="submit">Loeschen</button>
+                </form>
+            </td>
+        </tr>
+        <tr th:if="${#lists.isEmpty(pets)}">
+            <td colspan="6">Keine Haustiere registriert.</td>
+        </tr>
+        </tbody>
+    </table>
+</main>
+</body>
+</html>

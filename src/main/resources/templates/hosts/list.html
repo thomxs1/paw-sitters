@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="de" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Gastgeber</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+</head>
+<body>
+<header>
+    <h1>🐾 Pawsitters</h1>
+    <nav>
+        <a th:href="@{/}">Start</a>
+        <a th:href="@{/owners}">Tierhalter</a>
+        <a th:href="@{/hosts}">Gastgeber</a>
+        <a th:href="@{/pets}">Haustiere</a>
+    </nav>
+</header>
+
+<main>
+    <h2>Gastgeber</h2>
+    <a class="btn" th:href="@{/hosts/new}">+ Neuer Gastgeber</a>
+
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th><th>Name</th><th>E-Mail</th>
+            <th>Tierarten</th><th>Verfuegbar</th>
+            <th>Preis / Woche</th><th>Aktionen</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="h : ${hosts}">
+            <td th:text="${h.id}"></td>
+            <td th:text="${h.name}"></td>
+            <td th:text="${h.email}"></td>
+            <td th:text="${#strings.listJoin(h.acceptedAnimals, ', ')}"></td>
+            <td>
+                <span th:text="${h.availableFrom}"></span> bis
+                <span th:text="${h.availableUntil}"></span>
+            </td>
+            <td th:text="${h.pricePerWeek} + ' €'"></td>
+            <td>
+                <form class="inline-form" th:action="@{'/hosts/' + ${h.id} + '/delete'}" method="post">
+                    <button class="btn btn-danger" type="submit">Loeschen</button>
+                </form>
+            </td>
+        </tr>
+        <tr th:if="${#lists.isEmpty(hosts)}">
+            <td colspan="7">Noch keine Gastgeber vorhanden.</td>
+        </tr>
+        </tbody>
+    </table>
+</main>
+</body>
+</html>

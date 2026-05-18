@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="de" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Neuer Gastgeber</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+</head>
+<body>
+<header>
+    <h1>🐾 Pawsitters</h1>
+    <nav><a th:href="@{/hosts}">Zur Liste</a></nav>
+</header>
+
+<main>
+    <h2>Neuer Gastgeber</h2>
+    <div class="error" th:if="${error}" th:text="${error}"></div>
+
+    <form th:action="@{/hosts}" th:object="${host}" method="post">
+        <label>Name
+            <input type="text" th:field="*{name}" required/>
+        </label>
+        <label>E-Mail
+            <input type="email" th:field="*{email}" required/>
+        </label>
+        <label>Beschreibung
+            <textarea th:field="*{description}"></textarea>
+        </label>
+        <label>Tierarten, die aufgenommen werden</label>
+        <div th:each="t : ${animalTypes}">
+            <label style="font-weight:normal;">
+                <input type="checkbox" name="animals" th:value="${t}"/>
+                <span th:text="${t}"></span>
+            </label>
+        </div>
+        <label>Verfuegbar ab
+            <input type="date" th:field="*{availableFrom}" required/>
+        </label>
+        <label>Verfuegbar bis
+            <input type="date" th:field="*{availableUntil}" required/>
+        </label>
+        <label>Preis pro Woche (€)
+            <input type="number" step="0.01" min="0" th:field="*{pricePerWeek}" required/>
+        </label>
+        <button type="submit">Anlegen</button>
+        <a class="btn btn-secondary" th:href="@{/hosts}">Abbrechen</a>
+    </form>
+</main>
+</body>
+</html>

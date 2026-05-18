@@ -11,6 +11,8 @@
     <nav>
         <a th:href="@{/}">Start</a>
         <a th:href="@{/owners}">Tierhalter</a>
+        <a th:href="@{/hosts}">Gastgeber</a>
+        <a th:href="@{/pets}">Haustiere</a>
     </nav>
 </header>
 
@@ -19,6 +21,17 @@
     <p><strong>E-Mail:</strong> <span th:text="${owner.email}"></span></p>
     <p><strong>Beschreibung:</strong> <span th:text="${owner.description}"></span></p>
 
+    <h3>Haustiere</h3>
+    <ul>
+        <li th:each="p : ${owner.pets}">
+            <span th:text="${p.name}"></span> &mdash;
+            <span th:text="${p.animalType}"></span>
+            <span th:if="${p.age != null}">(<span th:text="${p.age}"></span> Jahre)</span>
+        </li>
+        <li th:if="${#lists.isEmpty(owner.pets)}">Keine Haustiere registriert.</li>
+    </ul>
+
+    <a class="btn" th:href="@{/pets/new}">Haustier registrieren</a>
     <a class="btn btn-secondary" th:href="@{/owners}">Zurueck</a>
 </main>
 </body>
