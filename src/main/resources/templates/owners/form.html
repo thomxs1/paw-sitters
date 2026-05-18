@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="de" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Neuer Tierhalter</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+</head>
+<body>
+<header>
+    <h1>🐾 Pawsitters</h1>
+    <nav>
+        <a th:href="@{/}">Start</a>
+        <a th:href="@{/owners}">Tierhalter</a>
+        <a th:href="@{/hosts}">Gastgeber</a>
+    </nav>
+</header>
+
+<main>
+    <h2>Neuer Tierhalter</h2>
+    <div class="error" th:if="${error}" th:text="${error}"></div>
+
+    <form th:action="@{/owners}" th:object="${owner}" method="post">
+        <label>Name
+            <input type="text" th:field="*{name}" required/>
+        </label>
+        <label>E-Mail
+            <input type="email" th:field="*{email}" required/>
+        </label>
+        <label>Beschreibung
+            <textarea th:field="*{description}" placeholder="Optional"></textarea>
+        </label>
+        <button type="submit">Anlegen</button>
+        <a class="btn btn-secondary" th:href="@{/owners}">Abbrechen</a>
+    </form>
+</main>
+</body>
+</html>

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="de" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Tierhalter Detail</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+</head>
+<body>
+<header>
+    <h1>🐾 Pawsitters</h1>
+    <nav>
+        <a th:href="@{/}">Start</a>
+        <a th:href="@{/owners}">Tierhalter</a>
+    </nav>
+</header>
+
+<main>
+    <h2 th:text="${owner.name}"></h2>
+    <p><strong>E-Mail:</strong> <span th:text="${owner.email}"></span></p>
+    <p><strong>Beschreibung:</strong> <span th:text="${owner.description}"></span></p>
+
+    <a class="btn btn-secondary" th:href="@{/owners}">Zurueck</a>
+</main>
+</body>
+</html>
