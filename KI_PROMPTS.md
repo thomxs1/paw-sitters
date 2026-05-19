@@ -8,8 +8,7 @@
 |---|---|---|
 | Claude (Anthropic) | Claude Opus 4.7 | Code-Skeleton, Dokumentations-Entwürfe, Test-Ideen |
 
-*(Tragt hier weitere Tools ein, falls verwendet — z. B. GitHub Copilot,
-ChatGPT, Gemini.)*
+
 
 ## 2. Eingesetzt für
 
