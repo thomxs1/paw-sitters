@@ -9,7 +9,7 @@ Monolith gewählt — keine Microservices.
 
 | Kriterium | Schichtenarchitektur | Microservices |
 |---|---|---|
-| Team-Größe  | ✅ Gut handhabbar | ❌ Overhead zu hoch |
+| Team-Größe (3 Personen) | ✅ Gut handhabbar | ❌ Overhead zu hoch |
 | Domänenkopplung | ✅ Entitäten stark verknüpft | ❌ Verteilte Transaktionen nötig |
 | Projektdauer | ✅ Schnell aufzusetzen | ❌ Mehr Infrastruktur |
 | CI-Aufwand | ✅ Eine Pipeline | ❌ Pro Service eine Pipeline |
