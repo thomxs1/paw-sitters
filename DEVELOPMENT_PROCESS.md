@@ -56,14 +56,14 @@ Beiträge sind über Git-Commits und Pull-Request-Historie nachvollziehbar
 Wir verwenden den **Feature-Branch-Workflow**:
 
 ```
-main  ──●────●─────────●─────●─────●────→
-         \    \         \     \     \
-          \    \         \     \     feature/security-concept
-           \    \         \     feature/integration-tests
+main  ──●────●─────────●──────●────→
+         \    \         \       \
+          \    \         \       feature/security-concept 
             \    \         feature/offer-service
              \    feature/templates
               feature/entities
-```
+
+
 
 - `main` ist immer lauffähig und enthält nur reviewten Code
 - Pro Feature ein eigener Branch: `feature/<kurze-beschreibung>`
