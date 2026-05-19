@@ -6,9 +6,9 @@
 
 | Person | Schwerpunkt |
 |---|---|
-| [Name 1] | Backend (Service-/Repository-Schicht, Tests) |
-| [Name 2] | Frontend (Thymeleaf-Templates, CSS) und Controller |
-| [Name 3] | Architektur, Security-Konzept, CI/CD, Dokumentation |
+| [Adi] | Backend (Service-/Repository-Schicht, Tests) |
+| [Hari] | Frontend (Thymeleaf-Templates, CSS) und Controller |
+| [Thomas] | Architektur, Security-Konzept, CI/CD, Dokumentation |
 
 Jedes Mitglied hat in **allen** Bereichen kleinere Beiträge geleistet
 (Pair-Programming für komplexe Stellen wie `OfferService.acceptOffer`), die
