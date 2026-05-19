@@ -32,19 +32,19 @@ hätten wir oft nicht eingehalten. Kanban erlaubt kontinuierlichen Fluss.
 
 | Aufgabengruppe | Verantwortlich | Bemerkung |
 |---|---|---|
-| Projekt-Setup, Maven, Spring Boot Skeleton | [Name 3] | |
-| Entities + Enums | [Name 1] | |
-| Repositories | [Name 1] | |
-| Services (PetOwner, Pet, Host) | [Name 1] | |
-| Service `CareRequest` | [Name 1] und [Name 2] (Pair) | |
+| Projekt-Setup, Maven, Spring Boot Skeleton | [Thomas] | |
+| Entities + Enums | [Adi] | |
+| Repositories | [Adi] | |
+| Services (PetOwner, Pet, Host) | [Adi] | |
+| Service `CareRequest` | [Adi] und [Hari] (Pair) | |
 | Service `Offer` (Kernlogik) | komplettes Team (Pair) | Hier liegt die kritischste Logik (Annahme + Auto-Reject) |
-| Controller | [Name 2] | |
-| Thymeleaf-Templates | [Name 2] | |
-| Unit-Tests | [Name 1] und [Name 3] | |
-| Integrationstests | [Name 3] | |
-| Architekturdokumentation | [Name 3] | |
-| Security-Konzept | [Name 3] | |
-| CI-Pipeline | [Name 3] | |
+| Controller | [Hari] | |
+| Thymeleaf-Templates | [Hari] | |
+| Unit-Tests | [Adi] und [Thomas] | |
+| Integrationstests | [Thomas] | |
+| Architekturdokumentation | [Thomas] | |
+| Security-Konzept | [Thomas] | |
+| CI-Pipeline | [Thomas] | |
 | KI-Prompts-Dokumentation | gemeinsam | jeder dokumentiert eigene Prompts |
 | Präsentation | gemeinsam | |
 
