@@ -4,13 +4,13 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Betreuungsanfrage (CareRequest).
  * Wird von einem Tierhalter erstellt und legt fest, welches Haustier
  * in welchem Zeitraum betreut werden soll.
- *
- * Die Beziehung zu Angeboten wird in einer spaeteren Iteration ergaenzt.
  */
 @Entity
 @Table(name = "care_requests")
@@ -36,6 +36,10 @@ public class CareRequest {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private RequestStatus status = RequestStatus.OPEN;
+
+    // Alle Angebote, die zu dieser Anfrage gesendet wurden
+    @OneToMany(mappedBy = "request", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Offer> offers = new ArrayList<>();
 
     public CareRequest() {}
 
@@ -69,4 +73,7 @@ public class CareRequest {
 
     public RequestStatus getStatus() { return status; }
     public void setStatus(RequestStatus status) { this.status = status; }
+
+    public List<Offer> getOffers() { return offers; }
+    public void setOffers(List<Offer> offers) { this.offers = offers; }
 }

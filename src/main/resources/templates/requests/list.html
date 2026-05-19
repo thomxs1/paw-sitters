@@ -14,6 +14,7 @@
         <a th:href="@{/hosts}">Gastgeber</a>
         <a th:href="@{/pets}">Haustiere</a>
         <a th:href="@{/requests}">Anfragen</a>
+        <a th:href="@{/offers}">Angebote</a>
     </nav>
 </header>
 
@@ -25,7 +26,7 @@
         <thead>
         <tr>
             <th>ID</th><th>Haustier</th><th>Tierart</th><th>Besitzer</th>
-            <th>Zeitraum</th><th>Status</th>
+            <th>Zeitraum</th><th>Status</th><th>Angebote</th><th>Aktionen</th>
         </tr>
         </thead>
         <tbody>
@@ -39,9 +40,13 @@
                 <span th:text="${r.endDate}"></span>
             </td>
             <td><span th:class="'status-' + ${r.status}" th:text="${r.status}"></span></td>
+            <td th:text="${#lists.size(r.offers)}"></td>
+            <td>
+                <a class="btn" th:href="@{'/offers/new?requestId=' + ${r.id}}">Angebot senden</a>
+            </td>
         </tr>
         <tr th:if="${#lists.isEmpty(requests)}">
-            <td colspan="6">Keine Anfragen vorhanden.</td>
+            <td colspan="8">Keine Anfragen vorhanden.</td>
         </tr>
         </tbody>
     </table>
