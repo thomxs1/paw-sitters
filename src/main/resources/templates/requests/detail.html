@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="de" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Anfrage Detail</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+</head>
+<body>
+<header>
+    <h1>🐾 Pawsitters</h1>
+    <nav>
+        <a th:href="@{/}">Start</a>
+        <a th:href="@{/requests}">Anfragen</a>
+    </nav>
+</header>
+
+<main>
+    <h2>Anfrage #<span th:text="${request.id}"></span></h2>
+    <p>
+        <strong>Haustier:</strong> <span th:text="${request.pet.name}"></span>
+        (<span th:text="${request.pet.animalType}"></span>)
+    </p>
+    <p>
+        <strong>Besitzer:</strong> <span th:text="${request.pet.owner.name}"></span>
+    </p>
+    <p>
+        <strong>Zeitraum:</strong>
+        <span th:text="${request.startDate}"></span> &ndash;
+        <span th:text="${request.endDate}"></span>
+    </p>
+    <p>
+        <strong>Status:</strong>
+        <span th:class="'status-' + ${request.status}" th:text="${request.status}"></span>
+    </p>
+
+    <form class="inline-form" th:action="@{'/requests/' + ${request.id} + '/status'}" method="post"
+          th:if="${request.status.name() != 'CANCELLED' and request.status.name() != 'MATCHED'}">
+        <input type="hidden" name="status" value="CANCELLED"/>
+        <button class="btn btn-danger" type="submit">Anfrage abbrechen</button>
+    </form>
+
+    <h3>Passende Gastgeber</h3>
+    <div class="card-list">
+        <div class="card" th:each="h : ${matchingHosts}">
+            <strong th:text="${h.name}"></strong> &mdash;
+            <span th:text="${h.pricePerWeek}"></span> €/Woche
+            <br/>
+            <small th:text="${h.email}"></small>
+            <br/>
+            <em>Angebote koennen in der naechsten Iteration gesendet werden.</em>
+        </div>
+        <div th:if="${#lists.isEmpty(matchingHosts)}">
+            <em>Keine passenden Gastgeber gefunden (Tierart oder Zeitraum stimmen nicht ueberein).</em>
+        </div>
+    </div>
+
+    <a class="btn btn-secondary" th:href="@{/requests}">Zurueck</a>
+</main>
+</body>
+</html>

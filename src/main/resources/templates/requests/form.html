@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="de" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Neue Anfrage</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+</head>
+<body>
+<header>
+    <h1>🐾 Pawsitters</h1>
+    <nav><a th:href="@{/requests}">Zur Liste</a></nav>
+</header>
+
+<main>
+    <h2>Neue Betreuungsanfrage</h2>
+    <div class="error" th:if="${error}" th:text="${error}"></div>
+
+    <form th:action="@{/requests}" method="post">
+        <label>Haustier
+            <select name="petId" required>
+                <option value="" disabled selected>Bitte waehlen</option>
+                <option th:each="p : ${pets}" th:value="${p.id}"
+                        th:text="${p.name + ' (' + p.animalType + ', Besitzer: ' + p.owner.name + ')'}"></option>
+            </select>
+        </label>
+        <label>Startdatum
+            <input type="date" name="startDate" required/>
+        </label>
+        <label>Enddatum
+            <input type="date" name="endDate" required/>
+        </label>
+        <button type="submit">Anfrage erstellen</button>
+        <a class="btn btn-secondary" th:href="@{/requests}">Abbrechen</a>
+    </form>
+</main>
+</body>
+</html>

@@ -12,14 +12,21 @@
         <a th:href="@{/owners}">Tierhalter</a>
         <a th:href="@{/hosts}">Gastgeber</a>
         <a th:href="@{/pets}">Haustiere</a>
+        <a th:href="@{/requests}">Anfragen</a>
     </nav>
 </header>
 
 <main>
     <h2>Willkommen bei Pawsitters</h2>
     <p>Die Plattform, die Tierhalter und Gastgeber verbindet.</p>
-    <p><em>Aktueller Stand: Tierhalter, Gastgeber und Haustiere koennen verwaltet werden.
-       Betreuungsanfragen und Angebote folgen.</em></p>
+    <p>Aktueller Stand:</p>
+    <ol>
+        <li>Tierhalter legt ein Profil an</li>
+        <li>Tierhalter registriert ein Haustier</li>
+        <li>Tierhalter erstellt eine Betreuungsanfrage fuer einen Zeitraum</li>
+        <li><em>Demnaechst:</em> Gastgeber sendet ein Angebot</li>
+        <li><em>Demnaechst:</em> Tierhalter nimmt ein Angebot an</li>
+    </ol>
     <p>
         <a class="btn" th:href="@{/owners/new}">Tierhalter anlegen</a>
         <a class="btn" th:href="@{/hosts/new}">Gastgeber anlegen</a>

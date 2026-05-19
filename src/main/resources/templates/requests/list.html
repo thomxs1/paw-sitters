@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="de" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Anfragen</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+</head>
+<body>
+<header>
+    <h1>🐾 Pawsitters</h1>
+    <nav>
+        <a th:href="@{/}">Start</a>
+        <a th:href="@{/owners}">Tierhalter</a>
+        <a th:href="@{/hosts}">Gastgeber</a>
+        <a th:href="@{/pets}">Haustiere</a>
+        <a th:href="@{/requests}">Anfragen</a>
+    </nav>
+</header>
+
+<main>
+    <h2>Betreuungsanfragen</h2>
+    <a class="btn" th:href="@{/requests/new}">+ Neue Anfrage</a>
+
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th><th>Haustier</th><th>Tierart</th><th>Besitzer</th>
+            <th>Zeitraum</th><th>Status</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="r : ${requests}">
+            <td th:text="${r.id}"></td>
+            <td><a th:href="@{'/requests/' + ${r.id}}" th:text="${r.pet.name}"></a></td>
+            <td th:text="${r.pet.animalType}"></td>
+            <td th:text="${r.pet.owner.name}"></td>
+            <td>
+                <span th:text="${r.startDate}"></span> &ndash;
+                <span th:text="${r.endDate}"></span>
+            </td>
+            <td><span th:class="'status-' + ${r.status}" th:text="${r.status}"></span></td>
+        </tr>
+        <tr th:if="${#lists.isEmpty(requests)}">
+            <td colspan="6">Keine Anfragen vorhanden.</td>
+        </tr>
+        </tbody>
+    </table>
+</main>
+</body>
+</html>
