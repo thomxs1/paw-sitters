@@ -15,66 +15,129 @@ Monolith gewählt — keine Microservices.
 | CI-Aufwand | ✅ Eine Pipeline | ❌ Pro Service eine Pipeline |
 | Deployment-Komplexität | ✅ Eine JAR | ❌ Mehrere Services + Orchestrierung |
 
-Die Domäne ist stark relational: Owner besitzen Pets, Pets sind Subjekt von
-Requests. Diese starken Beziehungen würden bei einer Microservice-Aufteilung
-verteilte Transaktionen erzwingen — für ein Studienprojekt zu aufwändig.
+Die Domäne ist stark relational: ein Owner besitzt Pets, ein Pet gehört zu
+Requests, ein Request bekommt Offers von Hosts. Diese starken Beziehungen
+würden bei einer Microservice-Aufteilung sofort verteilte Transaktionen oder
+Eventual Consistency erzwingen — beides für ein Studienprojekt zu aufwändig
+und ohne fachlichen Mehrwert.
 
 ## Schichten
 
 ```
-Präsentation (Thymeleaf)
-        ↑
-Controller (Spring MVC)
-        ↑
-Service (Geschäftslogik)
-        ↑
-Repository (Spring Data JPA)
-        ↑
-Persistenz (H2 In-Memory)
+┌──────────────────────────────────────────────────────────┐
+│  Präsentationsschicht (Thymeleaf Templates + CSS)        │
+│  - templates/owners/, hosts/, pets/, requests/, offers/  │
+└──────────────────────────────────────────────────────────┘
+                          ↑
+┌──────────────────────────────────────────────────────────┐
+│  Controller-Schicht (Spring MVC)                         │
+│  - PetOwnerController, HostController, PetController     │
+│  - CareRequestController, OfferController                │
+│  - HomeController                                        │
+│  → nimmt HTTP-Requests an, validiert, ruft Services auf  │
+└──────────────────────────────────────────────────────────┘
+                          ↑
+┌──────────────────────────────────────────────────────────┐
+│  Service-Schicht (Geschäftslogik)                        │
+│  - PetOwnerService, HostService, PetService              │
+│  - CareRequestService, OfferService                      │
+│  → kapselt Regeln: Matching, Statusübergänge, Validierung│
+└──────────────────────────────────────────────────────────┘
+                          ↑
+┌──────────────────────────────────────────────────────────┐
+│  Repository-Schicht (Spring Data JPA)                    │
+│  - PetOwnerRepository, HostRepository, …                 │
+│  → CRUD, abstrahiert den DB-Zugriff                      │
+└──────────────────────────────────────────────────────────┘
+                          ↑
+┌──────────────────────────────────────────────────────────┐
+│  Persistenz (H2 In-Memory)                               │
+└──────────────────────────────────────────────────────────┘
 ```
 
-## Domänenmodell (aktueller Stand)
+## Domänenmodell
 
 ```
         ┌──────────┐   1:N   ┌──────┐   N:1   ┌─────────────┐
         │ PetOwner │─────────│ Pet  │─────────│ CareRequest │
         └──────────┘         └──────┘         └─────────────┘
-
-                              ┌──────┐
-                              │ Host │       (noch ohne Verbindung
-                              └──────┘        zu Anfragen)
+                                                     │ 1:N
+                                                     ▼
+                              ┌──────┐   1:N    ┌────────┐
+                              │ Host │──────────│ Offer  │
+                              └──────┘          └────────┘
 ```
 
 ### Entities
 
 | Entity | Verantwortung |
 |---|---|
-| `PetOwner` | Tierhalter mit Profil |
+| `PetOwner` | Tierhalter mit Profil, kann mehrere Haustiere besitzen |
 | `Host` | Gastgeber mit akzeptierten Tierarten, Verfügbarkeit, Preis/Woche |
-| `Pet` | Haustier, gehört zu einem Owner |
+| `Pet` | Haustier, gehört zu einem Owner, hat eine `AnimalType` |
 | `CareRequest` | Betreuungswunsch eines Owners für einen Zeitraum |
+| `Offer` | Angebot eines Hosts zu einer konkreten Anfrage |
 
-In der nächsten Iteration kommt `Offer` dazu — die Verbindung zwischen
-`Host` und `CareRequest`.
+### Statusübergänge
 
-## Designentscheidungen
+**RequestStatus:**
+```
+OPEN ──(erstes Angebot)──→ IN_PROGRESS ──(Annahme)──→ MATCHED
+  └──(Abbruch)──→ CANCELLED            └──(Abbruch)──→ CANCELLED
+```
 
-### Constructor Injection statt Field-Injection
+**OfferStatus:**
+```
+PENDING ──(annehmen)──→ ACCEPTED
+   └────(ablehnen oder Sibling angenommen)──→ REJECTED
+```
 
-Alle Services verwenden Constructor Injection, damit Felder `final` sein
-können und ohne Spring testbar bleiben.
+## Designentscheidungen im Detail
 
-### Matching-Logik in der Entity (`Host.canAccommodate`)
+### 1. Constructor Injection statt `@Autowired`-Field-Injection
+
+Alle Services und Controller verwenden Constructor Injection. Vorteile: Felder
+können `final` sein, die Klassen sind ohne Spring testbar (im Unit-Test wird
+einfach der Konstruktor mit Mocks gerufen).
+
+### 2. Matching-Logik in der Entity (`Host.canAccommodate`)
 
 Die Prüfung „kann dieser Host die Tierart und den Zeitraum?" steht direkt
-auf `Host`. Tell-Don't-Ask-Prinzip.
+auf `Host`, nicht im Service. Das ist eine Tell-Don't-Ask-Entscheidung: die
+Daten und die Regel über sie gehören zusammen. Der Service iteriert nur
+über die Hosts und ruft die Methode auf.
 
-### H2 In-Memory
+### 3. Transaktion auf `OfferService.acceptOffer`
 
-H2 läuft in derselben JVM, kein Setup nötig. Für Produktion würde man auf
+`acceptOffer` führt mehrere Schreibvorgänge aus (Offer aktualisieren, Siblings
+ablehnen, Request auf MATCHED setzen). Mit `@Transactional` wird das atomar.
+Bricht ein Schritt ab, wird alles zurückgerollt.
+
+### 4. H2 In-Memory statt PostgreSQL/MySQL
+
+H2 läuft in derselben JVM. Vorteile fürs Projekt: kein Setup, keine externen
+Abhängigkeiten, Tests starten ohne Konfiguration. Nachteil: Daten gehen beim
+Neustart verloren — für eine Demo akzeptabel. Für Produktion würde man auf
 PostgreSQL wechseln (nur `application.properties` ändern).
 
-### Thymeleaf
+### 5. Thymeleaf statt REST + getrenntem Frontend
 
-Serverseitiges Rendering, keine zweite Codebase, Spring Boot integriert
-es out-of-the-box.
+Die Anforderung sagt „einfache Benutzeroberfläche, kein komplexes Design".
+Thymeleaf rendert serverseitig — keine zweite Codebase, keine JS-Toolchain.
+Spring Boot integriert es out-of-the-box.
+
+### 6. Bean Validation am Modell
+
+Annotations wie `@NotBlank`, `@Email`, `@PositiveOrZero` machen die Regeln
+im Modell sichtbar. Die JPA-Layer setzt sie zusätzlich als NOT-NULL-
+Constraints in der DB durch.
+
+## Erweiterungspotenzial
+
+Bewusst nicht implementiert, weil nicht von der Aufgabe gefordert:
+
+- Authentifizierung & Sessions (siehe Security-Konzept)
+- E-Mail-Versand bei Angebots-Eingang
+- Bewertungen für Hosts nach abgeschlossener Betreuung
+- Bezahlung & Treuhand
+- Mehrsprachigkeit
