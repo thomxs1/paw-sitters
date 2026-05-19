@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="de" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Angebote</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+</head>
+<body>
+<header>
+    <h1>🐾 Pawsitters</h1>
+    <nav>
+        <a th:href="@{/}">Start</a>
+        <a th:href="@{/requests}">Anfragen</a>
+        <a th:href="@{/offers}">Angebote</a>
+    </nav>
+</header>
+
+<main>
+    <h2>Alle Angebote</h2>
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th><th>Anfrage</th><th>Haustier</th>
+            <th>Gastgeber</th><th>Preis</th><th>Status</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="o : ${offers}">
+            <td th:text="${o.id}"></td>
+            <td><a th:href="@{'/requests/' + ${o.request.id}}" th:text="${o.request.id}"></a></td>
+            <td th:text="${o.request.pet.name}"></td>
+            <td th:text="${o.host.name}"></td>
+            <td th:text="${o.totalPrice} + ' €'"></td>
+            <td><span th:class="'status-' + ${o.status}" th:text="${o.status}"></span></td>
+        </tr>
+        <tr th:if="${#lists.isEmpty(offers)}">
+            <td colspan="6">Keine Angebote vorhanden.</td>
+        </tr>
+        </tbody>
+    </table>
+</main>
+</body>
+</html>

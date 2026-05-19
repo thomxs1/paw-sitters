@@ -47,12 +47,43 @@
             <br/>
             <small th:text="${h.email}"></small>
             <br/>
-            <em>Angebote koennen in der naechsten Iteration gesendet werden.</em>
+            <a class="btn" th:href="@{'/offers/new?requestId=' + ${request.id}}">Diesem Gastgeber Angebot zuordnen</a>
         </div>
         <div th:if="${#lists.isEmpty(matchingHosts)}">
             <em>Keine passenden Gastgeber gefunden (Tierart oder Zeitraum stimmen nicht ueberein).</em>
         </div>
     </div>
+
+    <h3>Eingegangene Angebote</h3>
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th><th>Gastgeber</th><th>Preis</th>
+            <th>Nachricht</th><th>Status</th><th>Aktionen</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="o : ${request.offers}">
+            <td th:text="${o.id}"></td>
+            <td th:text="${o.host.name}"></td>
+            <td th:text="${o.totalPrice} + ' €'"></td>
+            <td th:text="${o.message}"></td>
+            <td><span th:class="'status-' + ${o.status}" th:text="${o.status}"></span></td>
+            <td th:if="${o.status.name() == 'PENDING'}">
+                <form class="inline-form" th:action="@{'/offers/' + ${o.id} + '/accept'}" method="post">
+                    <button type="submit">Annehmen</button>
+                </form>
+                <form class="inline-form" th:action="@{'/offers/' + ${o.id} + '/reject'}" method="post">
+                    <button class="btn btn-danger" type="submit">Ablehnen</button>
+                </form>
+            </td>
+            <td th:if="${o.status.name() != 'PENDING'}">&mdash;</td>
+        </tr>
+        <tr th:if="${#lists.isEmpty(request.offers)}">
+            <td colspan="6">Noch keine Angebote eingegangen.</td>
+        </tr>
+        </tbody>
+    </table>
 
     <a class="btn btn-secondary" th:href="@{/requests}">Zurueck</a>
 </main>
