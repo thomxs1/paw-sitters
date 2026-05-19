@@ -50,8 +50,8 @@ public class CareRequestController {
     }
 
     /**
-     * Detailansicht einer Anfrage: zeigt passende Gastgeber an.
-     * (Die Anbindung an Angebote folgt in einer spaeteren Iteration.)
+     * Detailansicht einer Anfrage: zeigt vorhandene Angebote
+     * und passende Gastgeber an.
      */
     @GetMapping("/{id}")
     public String detail(@PathVariable Long id, Model model) {
