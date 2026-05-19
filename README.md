@@ -2,17 +2,17 @@
 
 DHBW Projektarbeit. Plattform, die Tierhalter mit Gastgebern verbindet.
 
-## Aktueller Stand: Tierhalter-Verwaltung
+## Aktueller Stand: Stammdaten komplett
 
-Erste fachliche Iteration: Verwaltung von Tierhaltern komplett umgesetzt
-inklusive Schichtenarchitektur (Controller → Service → Repository → Entity)
-und Unit-Tests.
+Alle Stammdaten-Entitäten und ihre Verwaltung sind umgesetzt: Tierhalter,
+Gastgeber und Haustiere. Die Schichtenarchitektur ist etabliert, jede
+Entität hat ihre Service- und Repository-Klasse mit Unit-Tests.
 
 ## Fortschritt der Funktionalitäten
 
 - [x] Profile für Tierhalter
-- [ ] Profile für Gastgeber
-- [ ] Registrierung von Haustieren
+- [x] Profile für Gastgeber
+- [x] Registrierung von Haustieren
 - [ ] Erstellung einer Betreuungsanfrage (Zeitraum)
 - [ ] Anzeige passender Angebote
 - [ ] Versenden von Angeboten durch Gastgeber
@@ -22,11 +22,8 @@ und Unit-Tests.
 
 ## Technologie-Stack
 
-- Java 17
-- Spring Boot 3.3.4
-- Maven
-- H2 In-Memory Datenbank
-- Thymeleaf
+- Java 17, Spring Boot 3.3.4, Maven
+- H2 In-Memory Datenbank, Thymeleaf
 - JUnit 5 + Mockito
 
 ## Setup & Start
@@ -35,7 +32,7 @@ und Unit-Tests.
 mvn spring-boot:run
 ```
 
-Anschließend Browser öffnen: <http://localhost:8080>
+Browser: <http://localhost:8080>
 
 ## Tests ausführen
 
@@ -43,4 +40,4 @@ Anschließend Browser öffnen: <http://localhost:8080>
 mvn test
 ```
 
-Aktuell: **4 Tests** (1 Smoke-Test + 3 Unit-Tests für `PetOwnerService`).
+Aktuell: **10 Tests** (1 Smoke + 3 PetOwner + 3 Host + 3 Pet).

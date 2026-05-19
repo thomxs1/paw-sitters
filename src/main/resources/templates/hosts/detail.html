@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="de" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Gastgeber Detail</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+</head>
+<body>
+<header>
+    <h1>🐾 Pawsitters</h1>
+    <nav><a th:href="@{/hosts}">Zur Liste</a></nav>
+</header>
+
+<main>
+    <h2 th:text="${host.name}"></h2>
+    <p><strong>E-Mail:</strong> <span th:text="${host.email}"></span></p>
+    <p><strong>Beschreibung:</strong> <span th:text="${host.description}"></span></p>
+    <p><strong>Tierarten:</strong>
+        <span th:text="${#strings.listJoin(host.acceptedAnimals, ', ')}"></span>
+    </p>
+    <p><strong>Verfuegbar:</strong>
+        <span th:text="${host.availableFrom}"></span> bis
+        <span th:text="${host.availableUntil}"></span>
+    </p>
+    <p><strong>Preis pro Woche:</strong> <span th:text="${host.pricePerWeek}"></span> €</p>
+
+    <a class="btn btn-secondary" th:href="@{/hosts}">Zurueck</a>
+</main>
+</body>
+</html>
