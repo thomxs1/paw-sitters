@@ -1,37 +1,40 @@
 <!DOCTYPE html>
 <html lang="de" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8"/>
-    <title>Pawsitters</title>
-    <link rel="stylesheet" th:href="@{/css/style.css}"/>
-</head>
-<body>
-<header>
-    <h1>🐾 Pawsitters</h1>
-    <nav>
-        <a th:href="@{/owners}">Tierhalter</a>
-        <a th:href="@{/hosts}">Gastgeber</a>
-        <a th:href="@{/pets}">Haustiere</a>
-        <a th:href="@{/requests}">Anfragen</a>
-        <a th:href="@{/offers}">Angebote</a>
-    </nav>
-</header>
 
-<main>
-    <h2>Willkommen bei Pawsitters</h2>
-    <p>Die Plattform, die Tierhalter und Gastgeber verbindet.</p>
-    <p>Typischer Ablauf:</p>
-    <ol>
-        <li>Tierhalter legt ein Profil an</li>
-        <li>Tierhalter registriert ein Haustier</li>
-        <li>Tierhalter erstellt eine Betreuungsanfrage fuer einen Zeitraum</li>
-        <li>Gastgeber sendet ein Angebot</li>
-        <li>Tierhalter nimmt ein Angebot an &mdash; andere werden automatisch abgelehnt</li>
-    </ol>
-    <p>
-        <a class="btn" th:href="@{/owners/new}">Tierhalter anlegen</a>
-        <a class="btn" th:href="@{/hosts/new}">Gastgeber anlegen</a>
-    </p>
-</main>
+<head>
+    <meta charset="UTF-8" />
+    <title>Pawsitters</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+
+<body>
+    <header>
+        <h1>🐾 Pawsitters</h1>
+        <nav>
+            <a th:href="@{/owners}">Tierhalter</a>
+            <a th:href="@{/hosts}">Gastgeber</a>
+            <a th:href="@{/pets}">Haustiere</a>
+            <a th:href="@{/requests}">Anfragen</a>
+            <a th:href="@{/offers}">Angebote</a>
+        </nav>
+    </header>
+
+    <main>
+        <h2>Willkommen in der Demo von Pawsitters</h2>
+        <p>Die Plattform, die Tierhalter und Gastgeber verbindet.</p>
+        <p>Typischer Ablauf:</p>
+        <ol>
+            <li>Tierhalter legt ein Profil an</li>
+            <li>Tierhalter registriert ein Haustier</li>
+            <li>Tierhalter erstellt eine Betreuungsanfrage fuer einen Zeitraum</li>
+            <li>Gastgeber sendet ein Angebot</li>
+            <li>Tierhalter nimmt ein Angebot an &mdash; andere werden automatisch abgelehnt</li>
+        </ol>
+        <p>
+            <a class="btn" th:href="@{/owners/new}">Tierhalter anlegen</a>
+            <a class="btn" th:href="@{/hosts/new}">Gastgeber anlegen</a>
+        </p>
+    </main>
 </body>
+
 </html>
